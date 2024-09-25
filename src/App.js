@@ -65,6 +65,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, [term]);
+  
 
   return (
     <div>
