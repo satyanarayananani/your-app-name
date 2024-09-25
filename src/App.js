@@ -3,6 +3,7 @@ import ImageCard from "./components/imageCard";
 import ImageSearch from "./components/ImageSearch";
 import FormValidations from "./components/FormValidations";
 import CrudTable from "./components/CureOperation";
+import ImagePage from "./components/imagepage/ImagePage";
 
 function App() {
   const [images, setImagse] = useState([]);
@@ -10,47 +11,11 @@ function App() {
   const [term, setTerm] = useState("");
   const [selectedButton, setSelectedButton] = useState(null);
   const renderContent = () => {
-    if (selectedButton === "button1") {
-      return (
-        <div>
-          {" "}
-          <CrudTable></CrudTable>
-        </div>
-      );
-    } else if (selectedButton === "button2") {
-      return (
-        <div>
-          {" "}
-          <FormValidations />
-        </div>
-      );
-    } else if (selectedButton === "button3") {
-      return (
-        <div>
-          {" "}
-          <div className="container mx-auto">
-            <ImageSearch searchText={(text) => setTerm(text)} />
-
-            {!isLoading && images.length === 0 && (
-              <h1 className="text-5xl text-center mx-auto mt-32">
-                No Images Found
-              </h1>
-            )}
-
-            {isLoading ? (
-              <h1 className="text-6xl text-center mx-auto mt-32">Loading...</h1>
-            ) : (
-              <div className="grid grid-cols-3 gap-4">
-                {images.map((image) => (
-                  <ImageCard key={image.id} image={image} />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    } else {
-      return <div>Please select a button to display data.</div>;
+    switch(selectedButton) {
+      case "button1": return <CrudTable />
+      case "button2": return <FormValidations />
+      case "button3": return <ImagePage setTerm={setTerm} isLoading={isLoading} images={images} />
+      default: return <div>Please select a button to display data.</div>;
     }
   };
 
@@ -68,7 +33,7 @@ function App() {
   
 
   return (
-    <div>
+    <div className="p-5">
       <div>
         <button  className="bg-blue-500 text-white p-2 rounded mr-10" onClick={() => setSelectedButton("button1")}>CURD OPERATION</button>
         <button  className="bg-blue-500 text-white p-2 rounded mr-10" onClick={() => setSelectedButton("button2")}>FORM VALIDATION</button>
